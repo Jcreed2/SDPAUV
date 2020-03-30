@@ -1,4 +1,4 @@
-function [Cost,Batterycapacity,SA,ACd,PowerWatts,range] = cost(D,V,T)
+function [Cost,Batterycapacity,SA,ACd,PowerWatts,range,M_leftover] = cost(D,V,T)
 %This function gives an estimated cost for an AUV given
 % Input  D = Diameter (m)
 %        V = Velocity (m/s)
@@ -8,8 +8,9 @@ function [Cost,Batterycapacity,SA,ACd,PowerWatts,range] = cost(D,V,T)
 %        SA = Surface Area (m)
 %        ACd = Area*Cd (m) 
 %        PowerWatts (W)
-%        Range (km)
+%        Range (km) 
 
+M_Kite = 3000; %Mass of Kite kg 
 L = 8.5*D;        %L/D Ratio of 8.5 (m)
 nf = 1;           %fore form factor
 na = 1;           %aft form factor
@@ -17,11 +18,11 @@ Velocity = V;     %(m/s)
 TetherLenght = T; %(m)
 x = [D,L,na,nf,Velocity,TetherLenght];
 
-t = hull_thickness(x); %(m) Hull Thickness
+t = hull_thickness(x) %(m) Hull Thickness
 
 [ehp,SA,ACd]=power_auv(x);  %HP
 PowerWatts=ehp*745.7;       %Watts
-[range,Batterycapacity,duration]=range_auv(x); %(km,Wh,hr)
+[range,Batterycapacity,duration,M_leftover]=range_auv(x); %(km,Wh,hr)
 
 %Motor Cost using Horsepower
 MotorMultipler = 200;            %($/HP)
@@ -46,6 +47,10 @@ CostTether = TetherLength*TetherMultipler; %($)
 Cost = CostMotor+CostBattery+CostHull+CostTether;
 if imag(Cost)~=0
     fprintf('Something Does Not Fit')
+    Cost = 0;
+end
+if M_Kite>M_leftover
+    fprintf('Kite Does Not Fit')
     Cost = 0;
 end
 return
