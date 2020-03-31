@@ -4,7 +4,8 @@ function [M_battery]=mass_energy(x)
 % It assumes a material density of 7870 kg/m3 (HY-80 Steel).
 %====================================================================== 
 Diameter=x(1);   Loa=x(2);    nf=x(3);   na=x(4); 
-ehp=power_auv(x);      %estimated horse power 
+Power=power_auv(x);      %estimated horse power 
+ehp = Power/745.7;
 t=hull_thickness(x);   %hull thickness (m)
 rho_sea=1025;          %sea water density (kg/m^3)   
 rho_material=7870;     %HY-80 Steel:7870(kg/m^3)    

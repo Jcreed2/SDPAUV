@@ -25,7 +25,7 @@ ba=floor(ba);
 xa=dx(ba+1:n);   
 
 for i=1:bf    
-    y=Diameter/2*(1-((Lf-xf)/Lf).^nf).^(1/nf); 
+    y=Diameter/2*(1-((Lf-xf)/Lf).^nf).^(1/nf);
 end
 
 j=1; 

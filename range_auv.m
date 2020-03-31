@@ -9,8 +9,8 @@ Velocity=x(5);
 format long;   
 
 energy_density=0.35; %kWh/kg for battery  
-ehp=power_auv(x);    %Effective Power in Horse Power 
-epw=ehp*745.7;       %Effective Power in Watts
+epw=power_auv(x);    %Effective Power in Watts
+%epw=ehp;%;*745.7;       %Effective Power in Watts
 
 nH=1.0;  %hull efficiency (1-t)/(1-w)
 nR=0.98; %relative rotative efficiency (open water - hull wake)
@@ -20,7 +20,7 @@ nM=0.95; %machinery efficiency (rotor, bearings, shaft)
 Etot=1000*M_battery*energy_density;      %Wh ((kg*kWh/kg)*1000)
 p_hotel=600;                                  %Hotel load (Watt)
 n_prop=nH*nR*nO*nM;                           %overall propulsive efficiency
-duration=Etot*n_prop/(epw+p_hotel*n_prop);    %in hours (Wh/W)
+duration=Etot*n_prop/(epw+p_hotel*n_prop);     %in hours (Wh/W)
 range=(duration*Velocity*3.6);                %in km (60*60/1000)
 
 if range>5 %Sets range around 5 km
@@ -31,6 +31,6 @@ if range>5 %Sets range around 5 km
     end
 end
 M_leftover = M_battery-Etot/(energy_density*1000); %leftover mass for kite (kg)
-Etot/(energy_density*1000)
+
 return
 
